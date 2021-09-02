@@ -2,6 +2,10 @@
 
 bash-extensions for prompt and subcommands
 
+## Version
+
+**0.0.1-pre** — developent only.
+
 ## TODO
 
 ### До версии 0.1-alpha
