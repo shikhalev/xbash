@@ -5,6 +5,12 @@ if [ -z ${xb_flag+anything} ]; then
 # Можно было бы проверять реально используемую переменную...
 # Но это чревато при дальнейших изменениях.
 
+# Включать для отладки
+# set -x;
+
+# Номер версии — для info
+xb_version='0.0.1-pre';
+
 # Предустановленные сообщения.
 xb_command_not_found_msg='Команда не найдена: %s\n';
 
@@ -97,8 +103,7 @@ command_not_found_handle() {
   unset xb_subcommands;
   declare -g -A xb_subcommands;
   for key in ${!xb_commands[*]}; do
-    echo ${xb_disabled_commands_hash[$key]};
-    if [ ${xb_disabled_commands_hash[$key]} = 'true' ]; then
+    if [ ! -z ${xb_disabled_commands_hash[$key]} ]; then
       continue;
     fi;
     if ${xb_checks[$key]}; then
@@ -107,13 +112,24 @@ command_not_found_handle() {
     # По итогу мы должны получить таблицу субкоманд актуальных и не запрещенных.
   done;
   local subcmd=$1;
-  if [ -n "${xb_subcommands[$subcmd]}" ]; then
+  if [ ! -z "${xb_subcommands[$subcmd]}" ]; then
     shift;
     ${xb_subcommands[$subcmd]} $@;
     return $?;
   fi;
   printf "$xb_command_not_found_msg" $1;
   return $xb_command_not_found_num;
+}
+
+xb_info() {
+  # TODO: раскрасить
+  echo "xbash v${xb_version}";
+  if [ -n "$1" ]; then
+    echo '';
+    # Тут надо варианты:
+    #  - только актуальные разрешенные модули
+    #  - все модули, с пометкой об актуальности и запрете
+  fi;
 }
 
 echo ${BASH_SOURCE[*]};
