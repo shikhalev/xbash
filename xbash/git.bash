@@ -25,6 +25,17 @@ xb_git_propmpts() {
   if [ ! -z "${subdir}" ]; then
     xb_prompt_path+=" ${xb_prompt_color_path}${subdir}"
   fi;
+  local changed="$(git status --porceline 2> /dev/null)";
+  local status_file=$(mktemp);
+  git status -b --porcelain > $status_file 2> /dev/null;
+  if [ ! -z "$(cat $status_file | grep '^??')" ]; then
+    xb_prompt_statuses+=( '\[\033[01;31m\]*' );
+  elif (( $(cat $status_file | wc -l) > 1 )); then
+    xb_prompt_statuses+=( '\[\033[01;33m\]*' );
+  elif [ ! -z "$(cat $status_file | grep '^##' | grep -o '\[.*\]$')" ]; then
+    xb_prompt_statuses+=( '\[\033[01;32m\]*' );
+  fi;
+  rm $status_file;
 }
 
 xb_checks[git]=xb_git_check;
