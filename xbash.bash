@@ -87,7 +87,7 @@ if [ ! -z "$xb_user" ]; then
   done;
 fi;
 
-# Подготавливаем ассоциативный массив для быстрого выяснения disable.
+# Подготавливаем ассоциативные массивы для быстрого выяснения disable.
 unset xb_disabled_commands;
 declare -a xb_disabled_commands;
 xb_disabled_commands+=( ${xb_disable[*]} );
@@ -97,13 +97,22 @@ declare -A xb_disabled_commands_hash;
 for key in ${xb_disabled_commands[*]}; do
   xb_disabled_commands_hash[$key]='true';
 done;
+unset xb_disabled_prompts;
+declare -a xb_disabled_prompts;
+xb_disabled_prompts+=( ${xb_disable[*]} );
+xb_disabled_prompts+=( ${xb_disable_prompts[*]} )
+unset xb_disabled_prompts_hash;
+declare -A xb_disabled_prompts_hash;
+for key in ${xb_disabled_prompts[*]}; do
+  xb_disabled_prompts_hash[$key]='true';
+done;
 
 # Подставляем субкоманды.
 command_not_found_handle() {
   unset xb_subcommands;
   declare -g -A xb_subcommands;
   for key in ${!xb_commands[*]}; do
-    if [ ! -z ${xb_disabled_commands_hash[$key]} ]; then
+    if [ ! -z "${xb_disabled_commands_hash[$key]}" ]; then
       continue;
     fi;
     if ${xb_checks[$key]}; then
@@ -121,6 +130,64 @@ command_not_found_handle() {
   return $xb_command_not_found_num;
 }
 
+xb_prompt_color_name='\[\033[01;32m\]';
+xb_prompt_color_path='\[\033[01;34m\]';
+xb_prompt_color_reset='\[\033[00m\]';
+
+xb_prompt_icons=( );                        # Очень коротко: иконки ПО, возможно с версиями.               # Цвета внутри.
+xb_prompt_name='\u@\h';                     # Идентификатор пользователя/хоста/терминала.                  # Цвет конфигурируется.
+xb_prompt_path='\w';                        # Репозиторий/проект/путь.                                     # Цвет конфигурируется.
+xb_prompt_statuses=( );                     # Статусы. Коротко.                                            # Цвета внутри.
+xb_prompt_marker=$xb_prompt_color_path'\$'; # Финальный маркер, желательно не переопределять лишний раз.   # Цвета внутри.
+
+xb_prompt() {
+  # Сбрасываем элементы.
+  xb_prompt_icons=( );
+  xb_prompt_name='\u@\h';
+  xb_prompt_path='\w';
+  xb_prompt_statuses=( );
+  xb_prompt_marker=$xb_prompt_color_path'\$';
+
+  # Формируем элементы.
+  for key in ${!xb_prompts}; do
+    if [ ! -z "${xb_disabled_prompts_hash[$key]}" ]; then
+      continue;
+    fi;
+    if ${xb_checks[$key]}; then
+      ${xb_prompts[$key]};
+    fi;
+  done;
+
+  # Собираем строку.
+  local prompt='';
+  if (( ${#xb_prompt_icons[@]} )); then
+    for icon in "${xb_prompt_icons[@]}"; do
+      if [ ! -z "${icon}" ]; then
+        prompt+="${icon}${xb_prompt_color_reset} ";
+      fi;
+    done;
+  fi;
+  if [ ! -z "${xb_prompt_name}" ]; then
+    prompt+="${xb_prompt_color_name}${xb_prompt_name}${xb_prompt_color_reset} ";
+  fi;
+  if [ ! -z "${xb_prompt_path}" ]; then
+    prompt+="${xb_prompt_color_path}${xb_prompt_path}${xb_prompt_color_reset} ";
+  fi;
+  if (( ${#xb_prompt_statuses[@]} )); then
+    for status in "${xb_prompt_statuses[@]}"; do
+      if [ ! -z "${status}" ]; then
+        prompt+="${status}${xb_prompt_color_reset} ";
+      fi;
+    done;
+  fi;
+  if [ ! -z "${xb_prompt_marker}" ]; then
+    prompt+="${xb_prompt_marker}${xb_prompt_color_reset} "
+  fi;
+  echo "$prompt";
+}
+
+export PS1="$(xb_prompt)";
+
 xb_info() {
   # TODO: раскрасить
   echo "xbash v${xb_version}";
@@ -131,8 +198,6 @@ xb_info() {
     #  - все модули, с пометкой об актуальности и запрете
   fi;
 }
-
-echo ${BASH_SOURCE[*]};
 
 # См. верх файла.
 # Сбрасываем флаг мы тут затем, чтобы разрешить повторную загрузку данного файла,
