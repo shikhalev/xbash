@@ -149,7 +149,7 @@ xb_prompt() {
   xb_prompt_marker=$xb_prompt_color_path'\$';
 
   # Формируем элементы.
-  for key in ${!xb_prompts}; do
+  for key in ${!xb_prompts[@]}; do
     if [ ! -z "${xb_disabled_prompts_hash[$key]}" ]; then
       continue;
     fi;
@@ -161,9 +161,9 @@ xb_prompt() {
   # Собираем строку.
   local prompt='';
   if (( ${#xb_prompt_icons[@]} )); then
-    for icon in "${xb_prompt_icons[@]}"; do
-      if [ ! -z "${icon}" ]; then
-        prompt+="${icon}${xb_prompt_color_reset} ";
+    for icon in "${!xb_prompt_icons[@]}"; do
+      if [ ! -z "${xb_prompt_icons[$icon]}" ]; then
+        prompt+="${xb_prompt_icons[$icon]}${xb_prompt_color_reset} ";
       fi;
     done;
   fi;
@@ -183,10 +183,11 @@ xb_prompt() {
   if [ ! -z "${xb_prompt_marker}" ]; then
     prompt+="${xb_prompt_marker}${xb_prompt_color_reset} "
   fi;
-  echo "$prompt";
+  export PS1="$prompt";
 }
 
-export PS1="$(xb_prompt)";
+PROMPT_COMMAND=xb_prompt;
+#export PS1="$(xb_prompt)";
 
 xb_info() {
   # TODO: раскрасить
