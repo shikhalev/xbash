@@ -123,7 +123,7 @@ command_not_found_handle() {
   local subcmd=$1;
   if [ ! -z "${xb_subcommands[$subcmd]}" ]; then
     shift;
-    ${xb_subcommands[$subcmd]} $@;
+    ${xb_subcommands[$subcmd]} "$@";
     return $?;
   fi;
   printf "$xb_command_not_found_msg" $1;
