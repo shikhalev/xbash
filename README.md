@@ -4,7 +4,7 @@ bash-extensions for prompt and subcommands
 
 ## Version
 
-**0.1.0-alpha** — developent only.
+**0.1.1-alpha** — developent only.
 
 ## Установка и использование (пререлизной версии)
 
