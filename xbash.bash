@@ -9,10 +9,10 @@ if [ -z ${xb_flag+anything} ]; then
 # set -x;
 
 # Номер версии — для info
-xb_version='0.0.1-pre';
+xb_version='0.1.0-alpha';
 
 # Предустановленные сообщения.
-xb_command_not_found_msg='Команда не найдена: %s\n';
+xb_command_not_found_msg='Command not found: %s\n';
 
 # Возыращаемое значение, когда команда не найдена.
 xb_command_not_found_num=255;
@@ -187,17 +187,49 @@ xb_prompt() {
 }
 
 PROMPT_COMMAND=xb_prompt;
-#export PS1="$(xb_prompt)";
 
 xb_info() {
   # TODO: раскрасить
   echo "xbash v${xb_version}";
-  if [ -n "$1" ]; then
-    echo '';
-    # Тут надо варианты:
-    #  - только актуальные разрешенные модули
-    #  - все модули, с пометкой об актуальности и запрете
+  local global='';
+  if [ "$1" == 'version' ]; then
+    return;
+  elif [ "$1" == 'global' ]; then
+    global='true';
   fi;
+  for key in ${!xb_checks[@]}; do
+    if [ -z "$global" ]; then
+      if [ ! -z "${xb_disabled_prompts_hash[$key]}" ]; then
+        continue;
+      fi;
+      if ${xb_checks[$key]}; then
+        echo '' > /dev/null;
+      else
+        continue;
+      fi;
+    fi;
+    echo "[${key}]";
+    if [ -z "${xb_prompts[$key]}" ]; then
+      echo "prompt: no";
+    else
+      echo "prompt: yes";
+    fi;
+    if [ -z "${xb_commands[$key]}" ]; then
+      echo "commands: no";
+    else
+      echo "commands:";
+      unset xb_subcommands;
+      declare -g -A xb_subcommands;
+      ${xb_commands[$key]};
+      if (( ${#xb_subcommands[@]} > 0 )); then
+        for sub in ${!xb_subcommands[@]}; do
+          echo "  ${sub} => ${xb_subcommands[$sub]}";
+        done;
+      else
+        echo '<empty>';
+      fi;
+    fi;
+  done;
 }
 
 # См. верх файла.

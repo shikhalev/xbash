@@ -4,7 +4,7 @@ bash-extensions for prompt and subcommands
 
 ## Version
 
-**0.0.1-pre** — developent only.
+**0.1.0-alpha** — developent only.
 
 ## TODO
 
@@ -12,12 +12,13 @@ bash-extensions for prompt and subcommands
 
 - [x] Сформировать список команд `git` и отладить.
 - [x] Сделать prompt для `git`.
-- [ ] Сделать функцию `xb_info()`.
+- [x] Сделать функцию `xb_info()`.
 - [x] Сделать определение репозитория, даже когда мы глубоко внутри.
 
 ### До версии 0.9-beta
 
 - [ ] Аналогично предыдущему для `cargo` и `jekyll`.
+- [ ] Доработать `xb_info()` до визуальной ясности.
 - [ ] Сделать инсталлятор (вероятнее всего — через `make install`).
 - [ ] Языки и цветовые схемы.
 
