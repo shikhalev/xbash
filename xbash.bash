@@ -161,11 +161,6 @@ xb_prompt() {
   # Собираем строку.
   local prompt='';
   if (( ${#xb_prompt_icons[@]} )); then
-    # for icon in "${!xb_prompt_icons[@]}"; do
-    #   if [ ! -z "${xb_prompt_icons[$icon]}" ]; then
-    #     prompt+="${xb_prompt_icons[$icon]}${xb_prompt_color_reset} ";
-    #   fi;
-    # done;
     for icon in "${xb_prompt_icons[@]}"; do
       if [ ! -z "${icon}" ]; then
         prompt+="${icon}${xb_prompt_color_reset} ";
