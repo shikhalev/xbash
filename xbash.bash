@@ -132,6 +132,7 @@ command_not_found_handle() {
 
 xb_prompt_color_name='\[\033[01;32m\]';
 xb_prompt_color_path='\[\033[01;34m\]';
+xb_prompt_color_error='\[\033[01;31m\]';
 xb_prompt_color_reset='\[\033[00m\]';
 
 xb_prompt_icons=( );                        # Очень коротко: иконки ПО, возможно с версиями.               # Цвета внутри.
@@ -140,13 +141,21 @@ xb_prompt_path='\w';                        # Репозиторий/проек�
 xb_prompt_statuses=( );                     # Статусы. Коротко.                                            # Цвета внутри.
 xb_prompt_marker=$xb_prompt_color_path'\$'; # Финальный маркер, желательно не переопределять лишний раз.   # Цвета внутри.
 
+xb_prompt_color() {
+  if [ $? -eq 0 ]; then
+    echo -e '\e[01;34m';
+  else
+    echo -e '\e[01;31m';
+  fi;
+}
+
 xb_prompt() {
   # Сбрасываем элементы.
   xb_prompt_icons=( );
   xb_prompt_name='\u@\h';
   xb_prompt_path='\w';
   xb_prompt_statuses=( );
-  xb_prompt_marker=$xb_prompt_color_path'\$';
+  xb_prompt_marker='$(xb_prompt_color)\$';
 
   # Формируем элементы.
   for key in ${!xb_prompts[@]}; do
