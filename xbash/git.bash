@@ -56,7 +56,7 @@ xb_git_commands() {
   xb_subcommands[annotate]='git annotate';
   xb_subcommands[blame]='git blame';
   xb_subcommands[bugreport]='git bugreport';
-  xb_subcommands[config]='git config';
+  xb_subcommands[g-config]='git config';              # Конфликт с системами сборки
   xb_subcommands[count-objects]='git count-objects';
   xb_subcommands[difftool]='git difftool';
   xb_subcommands[fast-export]='git fast-export';
