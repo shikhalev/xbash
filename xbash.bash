@@ -130,6 +130,8 @@ command_not_found_handle() {
   return $xb_command_not_found_num;
 }
 
+# TODO: разобраться с цветами — вынести в константы и вообще единообразить.
+
 xb_prompt_color_name='\[\033[01;32m\]';
 xb_prompt_color_path='\[\033[01;34m\]';
 xb_prompt_color_error='\[\033[01;31m\]';
@@ -246,3 +248,5 @@ xb_info() {
 # оставив запрет только на рекурсивную.
   unset xb_flag;
 fi;
+
+# set +x;
