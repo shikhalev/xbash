@@ -36,7 +36,7 @@ bash-extensions for prompt and subcommands
 ### До версии 0.9-beta
 
 - [ ] Аналогично предыдущему для
-  - [x] `cargo`
+  - [x] `cargo`,
   - [ ] `jekyll`.
 - [ ] Доработать `xb_info()` до визуальной ясности.
 - [ ] Сделать инсталлятор (вероятнее всего — через `make install`).

@@ -42,5 +42,10 @@ xb_cargo_commands() {
   xb_subcommands[fmt]='cargo fmt';
 }
 
+xb_cargo_prompt() {
+  xb_prompt_icons+=( '\[\033[00;33m\][cargo]' );
+}
+
 xb_checks[cargo]=xb_cargo_check;
 xb_commands[cargo]=xb_cargo_commands;
+xb_prompts[cargo]=xb_cargo_prompt;

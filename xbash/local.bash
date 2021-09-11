@@ -24,5 +24,10 @@ xb_local_commands() {
   fi;
 }
 
+xb_local_prompt() {
+  xb_prompt_icons+=( '\[\033[01;33m\][local]' );
+}
+
 xb_checks[local]=xb_local_checks;
 xb_commands[local]=xb_local_commands;
+xb_prompts[local]=xb_local_prompt;
