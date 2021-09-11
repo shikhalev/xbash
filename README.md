@@ -37,7 +37,10 @@ bash-extensions for prompt and subcommands
 
 - [ ] Аналогично предыдущему для
   - [x] `cargo`,
-  - [ ] `jekyll`.
+  - [ ] `jekyll`,
+  - [ ] `hg`,
+  - [ ] `bundle`,
+  - [ ] `gem`.
 - [ ] Доработать `xb_info()` до визуальной ясности.
 - [ ] Сделать инсталлятор (вероятнее всего — через `make install`).
 - [ ] Языки и цветовые схемы.
