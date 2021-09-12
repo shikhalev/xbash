@@ -4,7 +4,9 @@
 
 -----
 
-<img src="https://github.com/shikhalev/xbash/blob/main/doc/img/screen.png" align="center" title="Скриншот использования" alt="Скриншот">
+<p align="center">
+<img src="https://github.com/shikhalev/xbash/blob/main/doc/img/screen.png" title="Скриншот использования" alt="Скриншот">
+</p>
 
 При разработке в Linux зачастую активно используется командная строка, причем значительную часть команд
 составляют субкоманды системы управления версиями, такой как `git`, и системы сборки и управления
