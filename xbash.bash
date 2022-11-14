@@ -197,7 +197,9 @@ xb_prompt() {
   export PS1="$prompt";
 }
 
-PROMPT_COMMAND=xb_prompt;
+if [[ ! "$PROMPT_COMMAND" =~ "xb_prompt" ]]; then
+  PROMPT_COMMAND="${PROMPT_COMMAND};xb_prompt"
+fi;
 
 xb_info() {
   # TODO: раскрасить
