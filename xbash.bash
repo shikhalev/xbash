@@ -9,7 +9,7 @@ if [ -z ${xb_flag+anything} ]; then
 # set -x;
 
 # Номер версии — для info
-xb_version='0.1.2-alpha';
+xb_version='0.1.3-alpha';
 
 # Предустановленные сообщения.
 xb_command_not_found_msg='Command not found: %s\n';
