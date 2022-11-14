@@ -200,7 +200,7 @@ xb_prompt() {
 if [ -z "${PROMPT_COMMAND}" ]; then
   PROMPT_COMMAND="xb_prompt"
 elif [[ ! "$PROMPT_COMMAND" =~ "xb_prompt" ]]; then
-  PROMPT_COMMAND="${PROMPT_COMMAND};xb_prompt"
+  PROMPT_COMMAND="xb_prompt; ${PROMPT_COMMAND}"
 fi;
 
 xb_info() {
