@@ -197,9 +197,7 @@ xb_prompt() {
   export PS1="$prompt";
 }
 
-if [ -z "${PROMPT_COMMAND}" ]; then
-  PROMPT_COMMAND="xb_prompt"
-elif [[ ! "$PROMPT_COMMAND" =~ "xb_prompt" ]]; then
+if [[ ! "$PROMPT_COMMAND" =~ "xb_prompt" ]]; then
   PROMPT_COMMAND="xb_prompt; ${PROMPT_COMMAND}"
 fi;
 
